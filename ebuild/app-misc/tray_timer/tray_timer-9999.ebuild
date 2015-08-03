@@ -21,10 +21,4 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-S=${S}/src
-
-src_configure() {
-	#echo "${S}/src"
-	#cd "${S}/src"
-	cmake-utils_src_configure
-}
+S="${S}/src"

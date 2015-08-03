@@ -35,3 +35,5 @@ find_package(Qt4 REQUIRED QtGui)
 
 add_executable(${TARGET} ${SRCS})
 target_link_libraries(${TARGET} Qt4::QtGui)
+
+install(TARGETS ${TARGET})
