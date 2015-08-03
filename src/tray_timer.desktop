@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=TrayTimer
+GenericName=Tray Timer
+Exec=tray_timer
+Type=Application
+Terminal=false
+Category=Utility

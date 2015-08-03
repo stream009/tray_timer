@@ -9,7 +9,6 @@ inherit cmake-utils
 
 DESCRIPTION="Tiny timer applet which sit on system tray."
 HOMEPAGE="https://github.com/stream009/tray_timer"
-SRC_URI=""
 
 EGIT_REPO_URI="git://github.com/stream009/tray_timer.git"
 
@@ -18,7 +17,10 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE=""
 
-DEPEND=""
+DEPEND="
+	>=dev-util/cmake-3.3.0
+	dev-qt/qtgui:4
+	x11-misc/xdg-utils"
 RDEPEND="${DEPEND}"
 
 S="${S}/src"
