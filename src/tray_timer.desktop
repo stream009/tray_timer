@@ -4,4 +4,4 @@ GenericName=Tray Timer
 Exec=tray_timer
 Type=Application
 Terminal=false
-Categories=Utility
+Categories=Utility;
