@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource>
+    <file>style_sheet.qss</file>
+    <file>images/Clock-icon.png</file>
+</qresource>
+</RCC>

@@ -1,0 +1,4 @@
+#progressBar { font: 8pt }
+#progressBar[ratio="half"]::chunk { background-color: gold }
+#progressBar[ratio="fifth"]::chunk { background-color: red }
+#progressBar[suspended="true"]::chunk { background-color: blue }
