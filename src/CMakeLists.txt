@@ -39,5 +39,5 @@ target_link_libraries(${TARGET} Qt4::QtGui)
 install(TARGETS ${TARGET} RUNTIME DESTINATION bin)
 
 set(DESKTOP_ENTRY ${CMAKE_SOURCE_DIR}/tray_timer.desktop)
-set(DESKTOP_DIRECTORY /usr/share/applications)
+set(DESKTOP_DIRECTORY ${CMAKE_INSTALL_PREFIX}/share/applications)
 install(FILES ${DESKTOP_ENTRY} DESTINATION ${DESKTOP_DIRECTORY})
