@@ -38,7 +38,7 @@ target_link_libraries(${TARGET} Qt4::QtGui)
 
 install(TARGETS ${TARGET} RUNTIME DESTINATION bin)
 
-set(XDG_DESKTOP_MENU_ENTRY tray_timer.desktop)
+set(XDG_DESKTOP_MENU_ENTRY ${CMAKE_SOURCE_DIR}/tray_timer.desktop)
 find_program(XDG_DESKTOP_MENU_INSTALLER xdg-desktop-menu)
 install(CODE "
     execute_process(COMMAND
