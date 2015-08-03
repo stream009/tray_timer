@@ -19,8 +19,7 @@ IUSE=""
 
 DEPEND="
 	>=dev-util/cmake-3.3.0
-	dev-qt/qtgui:4
-	x11-misc/xdg-utils"
+	dev-qt/qtgui:4"
 RDEPEND="${DEPEND}"
 
 S="${S}/src"
