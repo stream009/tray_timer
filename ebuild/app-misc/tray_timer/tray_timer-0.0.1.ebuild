@@ -5,6 +5,7 @@
 EAPI=5
 
 inherit git-r3
+inherit cmake-utils
 
 DESCRIPTION="Tiny timer applet which sit on system tray."
 HOMEPAGE="https://github.com/stream009/tray_timer"
@@ -19,3 +20,11 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
+
+S=${S}/src
+
+src_configure() {
+	#echo "${S}/src"
+	#cd "${S}/src"
+	cmake-utils_src_configure
+}
