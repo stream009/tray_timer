@@ -38,9 +38,6 @@ target_link_libraries(${TARGET} Qt4::QtGui)
 
 install(TARGETS ${TARGET} RUNTIME DESTINATION bin)
 
-set(XDG_DESKTOP_MENU_ENTRY ${CMAKE_SOURCE_DIR}/tray_timer.desktop)
-find_program(XDG_DESKTOP_MENU_INSTALLER xdg-desktop-menu)
-install(CODE "
-    execute_process(COMMAND
-        ${XDG_DESKTOP_MENU_INSTALLER} install --novendor ${XDG_DESKTOP_MENU_ENTRY})
-")
+set(DESKTOP_ENTRY ${CMAKE_SOURCE_DIR}/tray_timer.desktop)
+set(DESKTOP_DIRECTORY /usr/share/applications)
+install(FILES ${DESKTOP_ENTRY} DESTINATION ${DESKTOP_DIRECTORY})
