@@ -35,8 +35,8 @@ private:
     QIcon           m_clockIcon;
     ProgressIcon    m_progressIcon;
     Timer           m_timer;
-    Actions         m_actions;
     Settings        m_settings;
+    Actions         m_actions;
     TimerMenu       m_timerMenu;
     RunningMenu     m_runningMenu;
     SuspendedMenu   m_suspendedMenu;

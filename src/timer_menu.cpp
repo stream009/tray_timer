@@ -26,12 +26,12 @@ addTimer(const QString &label, const size_t seconds)
     auto* const action = new QAction { label, this };
     action->setData(seconds);
     this->connect(action, SIGNAL(triggered()),
-                  this,     SLOT(onTriggerd()));
+                  this,     SLOT(onTriggered()));
     this->addAction(action);
 }
 
 void TimerMenu::
-onTriggerd()
+onTriggered()
 {
     auto* const action = dynamic_cast<QAction*>(this->sender());
     assert(action);

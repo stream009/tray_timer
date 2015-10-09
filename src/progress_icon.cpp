@@ -60,7 +60,6 @@ drawSeconds(QPixmap &pixmap, const size_t secs)
 {
     QPainter p { &pixmap };
     p.setPen(Qt::white);
-    //p.setFont(font());
     p.setFont(m_bar.font());
 
     const auto &text = QString { "%1" }.arg(secs);

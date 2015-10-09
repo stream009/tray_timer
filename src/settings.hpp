@@ -7,7 +7,7 @@
 
 class QApplication;
 
-class Settings : public QSettings
+class Settings
 {
 public:
     struct Timer {
@@ -20,7 +20,14 @@ public:
 public:
     Settings(QApplication&);
 
+    // accessor
     std::vector<Timer> timers();
+
+    // modifier
+    void setTimers(const std::vector<Timer> &);
+
+private:
+    QSettings m_settings;
 };
 
 #endif // SETTINGS_HPP

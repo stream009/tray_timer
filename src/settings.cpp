@@ -32,12 +32,12 @@ loadDefaultTimers(QSettings &settings)
 
 Settings::
 Settings(QApplication &app)
-    : QSettings { QSettings::IniFormat,
-                  QSettings::UserScope,
-                  app.organizationName(),
-                  app.applicationName() }
+    : m_settings { QSettings::IniFormat,
+                   QSettings::UserScope,
+                   app.organizationName(),
+                   app.applicationName() }
 {
-    loadDefaultTimers(*this);
+    loadDefaultTimers(m_settings);
 }
 
 std::vector<Settings::Timer> Settings::
@@ -45,20 +45,35 @@ timers()
 {
     std::vector<Timer> result;
 
-    const auto count = this->beginReadArray("Timer");
+    const auto count = m_settings.beginReadArray("Timer");
 
     for (auto i = 0; i < count; ++i) {
-        this->setArrayIndex(i);
+        m_settings.setArrayIndex(i);
 
-        const auto &name = this->value("Name").toString();
+        const auto &name = m_settings.value("Name").toString();
         assert(!name.isNull());
 
-        const auto duration = this->value("Duration").toUInt();
+        const auto duration = m_settings.value("Duration").toUInt();
 
         result.emplace_back(name, duration);
     }
 
-    this->endArray();
+    m_settings.endArray();
 
     return result;
+}
+
+void Settings::
+setTimers(const std::vector<Timer> &timers)
+{
+    m_settings.beginWriteArray("Timer");
+
+    for (auto i = 0u; i < timers.size(); ++i) {
+        m_settings.setArrayIndex(i);
+
+        m_settings.setValue("Name", timers[i].name);
+        m_settings.setValue("Duration", timers[i].duration);
+    }
+
+    m_settings.endArray();
 }

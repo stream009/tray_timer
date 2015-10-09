@@ -19,7 +19,7 @@ private:
     void addTimer(const QString &label, const size_t seconds);
 
 private Q_SLOTS:
-    void onTriggerd();
+    void onTriggered();
     void onTimerStateChanged(const TimerState);
     void onAboutToShow();
 

@@ -13,18 +13,24 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
 set(SRCS
-    main_window.cpp
-    progress_icon.cpp
-    timer_menu.cpp
-    running_menu.cpp
-    suspended_menu.cpp
+    actions.cpp
+    appearance_setting_widget.cpp
     context_menu.cpp
+    main.cpp
+    progress_icon.cpp
+    property_dialog.cpp
+    running_menu.cpp
+    settings.cpp
+    suspended_menu.cpp
     timer.cpp
+    timer_list_widget.cpp
+    timer_list_model.cpp
+    timer_list_actions.cpp
+    timer_menu.cpp
     tray_timer.cpp
     tray_timer.qrc
-    main.cpp
-    actions.cpp
-    settings.cpp
+    action_button.cpp
+    timer_dialog.cpp
 )
 
 set(CMAKE_AUTORCC ON)
@@ -32,6 +38,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(Qt4 REQUIRED QtGui)
+
+add_definitions(-DQT_NO_KEYWORDS)
 
 add_executable(${TARGET} ${SRCS})
 target_link_libraries(${TARGET} Qt4::QtGui)

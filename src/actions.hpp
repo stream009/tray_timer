@@ -83,13 +83,18 @@ private:
     QApplication &m_app;
 };
 
+class Settings;
+
 class PropertyAction : public ActionBase
 {
 public:
-    PropertyAction();
+    PropertyAction(Settings&);
 
 private:
     void operator()() override;
+
+private:
+    Settings &m_settings;
 };
 
 class AboutAction : public ActionBase
@@ -104,7 +109,7 @@ private:
 class Actions
 {
 public:
-    Actions(QApplication&, Timer&);
+    Actions(QApplication&, Timer&, Settings&);
 
     QAction &stop()     { return m_stopAction; };
     QAction &suspend()  { return m_suspendAction; }

@@ -10,8 +10,8 @@
 TrayTimer::
 TrayTimer(QApplication &app)
     : m_clockIcon     { ":/images/Clock-icon.png" }
-    , m_actions       { app, m_timer }
     , m_settings      { app }
+    , m_actions       { app, m_timer, m_settings }
     , m_timerMenu     { m_settings, m_timer }
     , m_runningMenu   { m_actions }
     , m_suspendedMenu { m_actions }

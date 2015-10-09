@@ -2,6 +2,9 @@
 
 #include "ui_about_dialog.h"
 
+#include "settings.hpp"
+#include "property_dialog.hpp"
+
 #include <QtGui/QApplication>
 #include <QtGui/QDialog>
 
@@ -98,13 +101,16 @@ operator()()
 }
 
 PropertyAction::
-PropertyAction()
+PropertyAction(Settings &settings)
     : ActionBase { "&Property" }
+    , m_settings { settings }
 {}
 
 void PropertyAction::
 operator()()
 {
+    PropertyDialog dialog { m_settings };
+    dialog.exec();
 }
 
 AboutAction::
@@ -123,9 +129,10 @@ operator()()
 }
 
 Actions::
-Actions(QApplication &app, Timer &timer)
-    : m_stopAction    { timer }
-    , m_suspendAction { timer }
-    , m_resumeAction  { timer }
-    , m_quitAction    { app }
+Actions(QApplication &app, Timer &timer, Settings &settings)
+    : m_stopAction     { timer }
+    , m_suspendAction  { timer }
+    , m_resumeAction   { timer }
+    , m_quitAction     { app }
+    , m_propertyAction { settings }
 {}

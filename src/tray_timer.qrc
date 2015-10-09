@@ -1,7 +1,11 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
-<qresource>
+<RCC>
+  <qresource>
+    <file>images/down.png</file>
+    <file>images/edit_add.png</file>
+    <file>images/edit_remove.png</file>
+    <file>images/edit.png</file>
+    <file>images/up.png</file>
     <file>style_sheet.qss</file>
     <file>images/Clock-icon.png</file>
-</qresource>
+  </qresource>
 </RCC>
