@@ -5,18 +5,30 @@
 
 #include <QtGui/QWidget>
 
-namespace Ui { class AppearanceSettingWidget; }
+class Settings;
 
 class AppearanceSettingWidget : public QWidget
 {
+    Q_OBJECT
     using Base = QWidget;
+    class ColorPanel;
+    class FontPanel;
+
 public:
-    AppearanceSettingWidget();
-    ~AppearanceSettingWidget();
+    AppearanceSettingWidget(Settings&);
+    ~AppearanceSettingWidget() override;
+
+    void save();
+
+Q_SIGNALS:
+    void changed();
 
 private:
-    std::unique_ptr<Ui::AppearanceSettingWidget> m_ui;
+    void connectWidgets();
+
+private:
+    std::shared_ptr<ColorPanel> m_colorPanel = nullptr;
+    std::shared_ptr<FontPanel> m_fontPanel = nullptr;
 };
 
 #endif // APPEARANCE_SETTING_WIDGET_HPP
-

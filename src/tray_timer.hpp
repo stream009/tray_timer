@@ -21,11 +21,12 @@ class TrayTimer : public QObject
 public:
     TrayTimer(QApplication&);
 
+private:
+    void changeColor();
+
 private Q_SLOTS:
     void onStarted(const size_t secs);
     void onStopped();
-    void onSuspended();
-    void onResumed();
     void onFinished();
     void onTic();
     void onSysTrayActivated(const QSystemTrayIcon::ActivationReason);

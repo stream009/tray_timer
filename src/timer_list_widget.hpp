@@ -16,9 +16,15 @@ class TimerListModel;
 
 class TimerListWidget : public QWidget
 {
+    Q_OBJECT
 public:
-    TimerListWidget(PropertyDialog&, Settings&);
+    TimerListWidget(Settings&);
     ~TimerListWidget();
+
+    void save();
+
+Q_SIGNALS:
+    void changed();
 
 private:
     QLayout &createButtonPanel();

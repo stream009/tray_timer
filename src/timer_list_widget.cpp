@@ -1,7 +1,6 @@
 #include "timer_list_widget.hpp"
 
 #include "action_button.hpp"
-#include "property_dialog.hpp"
 #include "settings.hpp"
 #include "timer_list_actions.hpp"
 #include "timer_list_model.hpp"
@@ -9,10 +8,11 @@
 #include <cassert>
 
 #include <QtGui/QBoxLayout>
+#include <QtGui/QDialog>
 #include <QtGui/QTreeView>
 
 TimerListWidget::
-TimerListWidget(PropertyDialog &dialog, Settings &settings)
+TimerListWidget(Settings &settings)
     : m_model { new TimerListModel { settings } }
 {
     assert(m_model);
@@ -38,12 +38,16 @@ TimerListWidget(PropertyDialog &dialog, Settings &settings)
     assert(buttonLayout.parent() == layout);
 
     this->connect(m_model.get(), SIGNAL(changed()),
-                  &dialog,         SLOT(onPropertyChanged()));
-    this->connect(&dialog,       SIGNAL(accepted()),
-                  m_model.get(),   SLOT(save()));
+                  this,          SIGNAL(changed()));
 }
 
 TimerListWidget::~TimerListWidget() = default;
+
+void TimerListWidget::
+save()
+{
+    m_model->save();
+}
 
 QLayout &TimerListWidget::
 createButtonPanel()

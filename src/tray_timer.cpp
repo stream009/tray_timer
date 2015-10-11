@@ -7,6 +7,9 @@
 #include <QtGui/QPixmap>
 #include <QtGui/QToolTip>
 
+#include <QtCore/QDebug>
+#include <QtCore/QElapsedTimer>
+
 TrayTimer::
 TrayTimer(QApplication &app)
     : m_clockIcon     { ":/images/Clock-icon.png" }
@@ -25,9 +28,9 @@ TrayTimer(QApplication &app)
     this->connect(&m_timer, SIGNAL(stopped()),
                   this,       SLOT(onStopped()));
     this->connect(&m_timer, SIGNAL(suspended()),
-                  this,       SLOT(onSuspended()));
+                  this,       SLOT(onTic()));
     this->connect(&m_timer, SIGNAL(resumed()),
-                  this,       SLOT(onResumed()));
+                  this,       SLOT(onTic()));
     this->connect(&m_timer, SIGNAL(finished()),
                   this,       SLOT(onFinished()));
     this->connect(&m_timer, SIGNAL(tic()),
@@ -53,20 +56,6 @@ onStopped()
 }
 
 void TrayTimer::
-onSuspended()
-{
-    m_progressIcon.setSuspended(true);
-    onTic();
-}
-
-void TrayTimer::
-onResumed()
-{
-    m_progressIcon.setSuspended(false);
-    onTic();
-}
-
-void TrayTimer::
 onFinished()
 {
     QMessageBox::information(
@@ -77,10 +66,19 @@ onFinished()
 void TrayTimer::
 onTic()
 {
-    m_progressIcon.setCurrent(m_timer.reminder());
+    const auto &seconds = m_timer.reminder();
+
+    m_progressIcon.setCurrent(seconds);
+
+    changeColor();
+
+    QFont font { m_settings.fontName(),
+                 static_cast<int>(m_settings.fontSize()) };
+    m_progressIcon.setFont(font);
+
     m_sysTray.setIcon(m_progressIcon);
 
-    const auto &tipText = QString("%1 sec").arg(m_timer.reminder());
+    const auto &tipText = QString("%1 sec").arg(seconds);
     m_sysTray.setToolTip(tipText);
 
     // We need to do this in order to achieve constant tooltip update.
@@ -118,5 +116,26 @@ onSysTrayActivated(const QSystemTrayIcon::ActivationReason reason)
         break;
     default:
         break;
+    }
+}
+
+void TrayTimer::
+changeColor()
+{
+    if (m_timer.status() == TimerState::Suspended) {
+        m_progressIcon.setColor(m_settings.suspendedColor());
+    }
+    else {
+        const double ratio =
+            static_cast<double>(m_timer.reminder()) / m_timer.timeOut();
+        if (ratio <= 0.2) {
+            m_progressIcon.setColor(m_settings.lessThan20Color());
+        }
+        else if (ratio <= 0.5) {
+            m_progressIcon.setColor(m_settings.lessThan50Color());
+        }
+        else {
+            m_progressIcon.setColor(m_settings.normalColor());
+        }
     }
 }

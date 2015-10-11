@@ -15,8 +15,8 @@
 PropertyDialog::
 PropertyDialog(Settings &settings)
     : m_settings   { settings }
-    , m_timer      { new TimerListWidget { *this, settings } }
-    , m_appearance { new AppearanceSettingWidget {} }
+    , m_timer      { new TimerListWidget { m_settings } }
+    , m_appearance { new AppearanceSettingWidget { m_settings } }
 {
     this->resize(500, 300);
 
@@ -29,6 +29,8 @@ PropertyDialog(Settings &settings)
     layout->addWidget(m_buttonBox.get());
 
     okButton().setEnabled(false);
+
+    connectWidgets();
 }
 
 PropertyDialog::~PropertyDialog() = default;
@@ -69,7 +71,25 @@ okButton()
 }
 
 void PropertyDialog::
+onAccepted()
+{
+    m_timer->save();
+    m_appearance->save();
+}
+
+void PropertyDialog::
 onPropertyChanged()
 {
     okButton().setEnabled(true);
+}
+
+void PropertyDialog::
+connectWidgets()
+{
+    this->connect(m_timer.get(), SIGNAL(changed()),
+                  this,            SLOT(onPropertyChanged()));
+    this->connect(m_appearance.get(), SIGNAL(changed()),
+                  this,                 SLOT(onPropertyChanged()));
+    this->connect(this, SIGNAL(accepted()),
+                  this,   SLOT(onAccepted()));
 }

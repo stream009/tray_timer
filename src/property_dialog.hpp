@@ -26,7 +26,11 @@ private:
     QPushButton &okButton();
 
 private Q_SLOTS:
+    void onAccepted();
     void onPropertyChanged();
+
+private:
+    void connectWidgets();
 
 private:
     Settings &m_settings;

@@ -21,12 +21,15 @@ public:
     void suspend();
     void resume();
 
+    // query
     TimerState status() const { return m_state; }
 
     size_t reminder() const
     {
         return m_timeOutSec - m_currentSec;
     }
+
+    size_t timeOut() const { return m_timeOutSec; }
 
 Q_SIGNALS:
     void started(const size_t timeOut) const;

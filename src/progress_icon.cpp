@@ -3,6 +3,8 @@
 #include <cassert>
 
 #include <QtCore/QVariant>
+#include <QtGui/QColor>
+#include <QtGui/QFont>
 #include <QtGui/QIcon>
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
@@ -17,12 +19,12 @@ ProgressIcon()
     m_bar.setMinimum(0);
     m_bar.setMaximum(1);
     m_bar.setTextVisible(false);
+    m_font = m_bar.font();
 }
 
 ProgressIcon::
 operator QIcon()
 {
-    changeBarColor();
     auto pixmap = QPixmap::grabWidget(&m_bar);
 
     const auto current = m_bar.value();
@@ -31,6 +33,12 @@ operator QIcon()
     }
 
     return QIcon { pixmap };
+}
+
+QColor ProgressIcon::
+color() const
+{
+    return m_bar.palette().color(QPalette::Highlight);
 }
 
 void ProgressIcon::
@@ -49,10 +57,17 @@ setCurrent(const size_t value)
 }
 
 void ProgressIcon::
-setSuspended(const bool flag)
+setColor(const QColor &color)
 {
-    m_bar.setProperty("suspended", flag);
-    polishBar();
+    QPalette palette { m_bar.palette() };
+    palette.setColor(QPalette::Highlight, color);
+    m_bar.setPalette(palette);
+}
+
+void ProgressIcon::
+setFont(const QFont &font)
+{
+    m_font = font;
 }
 
 void ProgressIcon::
@@ -60,7 +75,7 @@ drawSeconds(QPixmap &pixmap, const size_t secs)
 {
     QPainter p { &pixmap };
     p.setPen(Qt::white);
-    p.setFont(m_bar.font());
+    p.setFont(m_font);
 
     const auto &text = QString { "%1" }.arg(secs);
     const QFontMetrics fm { p.font() };
@@ -71,30 +86,4 @@ drawSeconds(QPixmap &pixmap, const size_t secs)
     const auto y = height + (m_bar.height() - height) / 2;
 
     p.drawText(x, y, text);
-}
-
-void ProgressIcon::
-changeBarColor()
-{
-    const double ratio = static_cast<double>(m_bar.value()) / m_bar.maximum();
-    if (ratio <= 0.2) {
-        m_bar.setProperty("ratio", "fifth");
-        polishBar();
-    }
-    else if (ratio <= 0.5) {
-        m_bar.setProperty("ratio", "half");
-        polishBar();
-    }
-    else {
-        m_bar.setProperty("ratio", "");
-        polishBar();
-    }
-}
-
-void ProgressIcon::
-polishBar()
-{
-    m_bar.style()->unpolish(&m_bar);
-    m_bar.style()->polish(&m_bar);
-    m_bar.update();
 }
